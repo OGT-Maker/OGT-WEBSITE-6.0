@@ -36,6 +36,16 @@
     .faq-item summary { cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; background: #f9f9f9; border-left: 5px solid #ffde59; border-radius: 5px; }
     .faq-item p { padding: 0.5rem 1rem; margin: 0; background: #fff; border-radius: 0 0 5px 5px; border-left: 5px solid #ffde59; border-top: none; }
     @media (max-width: 768px) { nav a { margin: 0 0.8rem; } }
+    .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 0 1rem; }
+.logo { font-size: 1.5rem; color: #ffde59; font-weight: bold; }
+.hamburger { display: none; font-size: 2rem; color: #ffde59; cursor: pointer; }
+.nav-links { display: flex; flex-wrap: wrap; justify-content: center; }
+@media (max-width: 768px) {
+  .hamburger { display: block; }
+  .nav-links { display: none; flex-direction: column; align-items: center; background: #222; width: 100%; }
+  .nav-links.show { display: flex; }
+  nav a { margin: 1rem 0; display: block; }
+}
   </style>
 </head>
 <body>
