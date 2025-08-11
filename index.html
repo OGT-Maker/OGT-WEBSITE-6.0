@@ -4,109 +4,70 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ORE GENIUS TUTORING</title>
-
-  <!-- Favicon (place favicon.png in the repo root) -->
   <link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
 
-  <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
   <style>
     html { scroll-behavior: smooth; }
     body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background: #fff; color: #000; overflow-x: hidden; }
-
     header { background: #000; color: #ffde59; padding: 2rem; text-align: center; }
 
-    /* Base nav styles */
+    /* --- NAVIGATION --- */
     nav { background: #222; position: sticky; top: 0; z-index: 1000; }
-    nav a { color: #ffde59; text-decoration: none; font-weight: bold; position: relative; }
-    nav a::after {
-      content: ''; display: block; width: 0; height: 2px; background: #ffde59;
-      transition: width 0.3s; position: absolute; bottom: -5px; left: 0;
-    }
-    nav a:hover::after { width: 100%; }
-
-    /* --- NAV LAYOUT (reworked to prevent overlap) --- */
     .nav-container {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 1rem; min-height: 56px;
+      display: flex; align-items: center; justify-content: space-between; padding: 0 1rem;
     }
     .logo { font-size: 1.5rem; color: #ffde59; font-weight: bold; }
-    .hamburger { display: none; font-size: 2rem; color: #ffde59; cursor: pointer; line-height: 1; }
-    .nav-links {
-      display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
-      gap: .75rem; padding: .75rem 0;
-    }
-    /* Tighter margins than default so links don't push each other */
-    nav a { margin: 0 .75rem; }
+    .hamburger { display: none; font-size: 2rem; color: #ffde59; cursor: pointer; }
+    .nav-links { display: flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: .75rem; }
+    nav a { color: #ffde59; text-decoration: none; font-weight: bold; position: relative; margin: 0 .75rem; }
+    nav a::after { content: ''; display: block; width: 0; height: 2px; background: #ffde59; transition: width 0.3s; position: absolute; bottom: -5px; left: 0; }
+    nav a:hover::after { width: 100%; }
 
-    /* Collapse menu on tablets & phones up to 1024px */
+    /* Collapse on tablets & phones */
     @media (max-width: 1024px) {
       .hamburger { display: block; }
       .nav-links {
-        display: none;            /* hidden until toggled */
-        flex-direction: column; align-items: center; background: #222; width: 100%;
-        gap: 0; padding: .5rem 0 1rem;
+        display: none; flex-direction: column; align-items: center; background: #222; width: 100%; padding: .5rem 0;
       }
       .nav-links.show { display: flex; }
-      nav a { margin: .6rem 0; }
-      .nav-container { padding: 0 .75rem; }
+      nav a { margin: .6rem 0; display: block; }
     }
-
-    /* Small phones: nudge font size */
     @media (max-width: 420px) {
       nav a { font-size: 0.95rem; }
     }
 
-    .hero {
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      padding: 6rem 2rem; background: #ffde59; text-align: center;
-      transition: clip-path 1s ease-in-out; clip-path: circle(0% at 50% 50%);
-    }
+    /* --- HERO --- */
+    .hero { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 6rem 2rem; background: #ffde59; text-align: center; transition: clip-path 1s ease-in-out; clip-path: circle(0% at 50% 50%); }
     .hero.show { clip-path: circle(150% at 50% 50%); }
-    .hero h2 { font-size: 2.2rem; margin-bottom: 1rem; }
-    .hero p { font-size: 1.1rem; margin-bottom: 2rem; max-width: 650px; }
+    .hero h2 { font-size: 2.8rem; margin-bottom: 1rem; }
+    .hero p { font-size: 1.3rem; margin-bottom: 2rem; max-width: 600px; }
+    .btn { background: #000; color: #ffde59; padding: 0.8rem 2rem; text-decoration: none; border-radius: 30px; font-weight: bold; transition: transform 0.4s ease, background 0.3s; display: inline-block; }
+    .btn:hover { background: #333; transform: scale(1.1) rotate(2deg); }
 
-    .btn {
-      background: #000; color: #ffde59; padding: 0.8rem 2rem; text-decoration: none;
-      border-radius: 30px; font-weight: bold; transition: transform 0.4s ease, background 0.3s; display: inline-block;
-    }
-    .btn:hover { background: #333; transform: scale(1.06) rotate(1deg); }
-
-    .section {
-      padding: 4rem 2rem; max-width: 1100px; margin: auto;
-      transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out; opacity: 0; transform: translateY(20px);
-    }
+    /* --- GENERAL SECTIONS --- */
+    .section { padding: 4rem 2rem; max-width: 1100px; margin: auto; transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out; opacity: 0; transform: translateY(20px); }
     .section.show { opacity: 1; transform: translateY(0); }
-
     .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem; }
-    .card {
-      background: #f9f9f9; border-left: 5px solid #ffde59; padding: 1.5rem; border-radius: 10px;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.05); transition: transform 0.3s ease;
-    }
+    .card { background: #f9f9f9; border-left: 5px solid #ffde59; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 10px rgba(0,0,0,0.05); transition: transform 0.3s ease; }
     .card:hover { transform: translateY(-5px); }
 
+    /* --- CONTACT --- */
     .contact-info a { display: inline-flex; align-items: center; color: #000; text-decoration: none; margin-bottom: 0.5rem; }
     .contact-info a i { margin-right: 0.5rem; font-size: 1.2rem; }
-
     .form-container { background: #f9f9f9; padding: 2rem; border-radius: 10px; margin-top: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-    .form-container input, .form-container textarea {
-      width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 5px;
-    }
-    .form-container button {
-      background: #000; color: #ffde59; padding: 0.8rem 2rem; border: none; border-radius: 30px;
-      font-weight: bold; cursor: pointer; transition: transform 0.4s ease, background 0.3s;
-    }
-    .form-container button:hover { background: #333; transform: scale(1.06) rotate(-1deg); }
+    .form-container input, .form-container textarea { width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 5px; }
+    .form-container button { background: #000; color: #ffde59; padding: 0.8rem 2rem; border: none; border-radius: 30px; font-weight: bold; cursor: pointer; transition: transform 0.4s ease, background 0.3s; }
+    .form-container button:hover { background: #333; transform: scale(1.1) rotate(-2deg); }
 
+    /* --- FOOTER --- */
     footer { text-align: center; padding: 1.5rem; background: #000; color: #ffde59; margin-top: 3rem; }
 
+    /* --- TESTIMONIALS --- */
     .testimonial-box { background: #ffde59; padding: 2rem; border-radius: 10px; margin-top: 2rem; color: #000; font-style: italic; }
 
-    .faq-item summary {
-      cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; background: #f9f9f9;
-      border-left: 5px solid #ffde59; border-radius: 5px;
-    }
+    /* --- FAQ --- */
+    .faq-item summary { cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; background: #f9f9f9; border-left: 5px solid #ffde59; border-radius: 5px; }
     .faq-item p { padding: 0.5rem 1rem; margin: 0; background: #fff; border-radius: 0 0 5px 5px; border-left: 5px solid #ffde59; border-top: none; }
   </style>
 </head>
@@ -142,86 +103,44 @@
   <section class="section" id="about">
     <h2>About Us</h2>
     <div class="cards">
-      <div class="card">
-        <h3>Who We Are</h3>
-        <p>OGT is a premier tutoring platform focused on helping university students excel academically in Mining, Sciences, and Commerce disciplines.</p>
-      </div>
-      <div class="card">
-        <h3>Our Mission</h3>
-        <p>To simplify complex academic content and provide personalized tutoring to ensure every student reaches their full potential.</p>
-      </div>
+      <div class="card"><h3>Who We Are</h3><p>OGT is a premier tutoring platform focused on helping university students excel academically in Mining, Sciences, and Commerce disciplines.</p></div>
+      <div class="card"><h3>Our Mission</h3><p>To simplify complex academic content and provide personalized tutoring to ensure every student reaches their full potential.</p></div>
     </div>
   </section>
 
   <section class="section" id="services">
     <h2>Our Services</h2>
     <div class="cards">
-      <div class="card">
-        <h3>One-on-One Tutoring</h3>
-        <p>Personalized attention tailored to your academic needs in Mining, Sciences, and Commerce subjects.</p>
-      </div>
-      <div class="card">
-        <h3>Group Study Sessions</h3>
-        <p>Collaborative sessions designed to foster peer learning and shared problem-solving strategies.</p>
-      </div>
-      <div class="card">
-        <h3>Pre-recorded Video Lessons</h3>
-        <p>Video tutorials covering key concepts, worked examples, tests and exam papers to support your independent learning.</p>
-      </div>
+      <div class="card"><h3>One-on-One Tutoring</h3><p>Personalized attention tailored to your academic needs in Mining, Sciences, and Commerce subjects.</p></div>
+      <div class="card"><h3>Group Study Sessions</h3><p>Collaborative sessions designed to foster peer learning and shared problem-solving strategies.</p></div>
+      <div class="card"><h3>Pre-recorded Video Lessons</h3><p>Video tutorials covering key concepts, worked examples, tests and exam papers to support your independent learning.</p></div>
     </div>
   </section>
 
   <section class="section" id="why">
     <h2>Why Choose Us</h2>
     <div class="cards">
-      <div class="card">
-        <h3>Expert Tutors</h3>
-        <p>Our tutors are top-performing university students with hands-on experience in their respective fields.</p>
-      </div>
-      <div class="card">
-        <h3>Flexible Learning</h3>
-        <p>We offer both online and in-person sessions to accommodate your learning preferences.</p>
-      </div>
-      <div class="card">
-        <h3>Student-Centered Approach</h3>
-        <p>Every session is tailored to address your unique challenges and academic goals.</p>
-      </div>
+      <div class="card"><h3>Expert Tutors</h3><p>Our tutors are top-performing university students with hands-on experience in their respective fields.</p></div>
+      <div class="card"><h3>Flexible Learning</h3><p>We offer both online and in-person sessions to accommodate your learning preferences.</p></div>
+      <div class="card"><h3>Student-Centered Approach</h3><p>Every session is tailored to address your unique challenges and academic goals.</p></div>
     </div>
   </section>
 
   <section class="section" id="tutors">
     <h2>Meet Our Head Tutors</h2>
     <div class="cards">
-      <div class="card">
-        <h3>Kamogelo Nkosi</h3>
-        <p>Mining Engineering Major, specializing in Ventilation, Robotics and Surpac Software.</p>
-      </div>
-      <div class="card">
-        <h3>Jane Smith</h3>
-        <p>Commerce Graduate, expert in Financial Accounting and Business Strategy tutoring.</p>
-      </div>
-      <div class="card">
-        <h3>Michael Lee</h3>
-        <p>Science Enthusiast with a focus on Chemistry, Physics, and problem-solving methodologies.</p>
-      </div>
+      <div class="card"><h3>Kamogelo Nkosi</h3><p>Mining Engineering Major, specializing in Ventilation, Robotics and Surpac Software.</p></div>
+      <div class="card"><h3>Jane Smith</h3><p>Commerce Graduate, expert in Financial Accounting and Business Strategy tutoring.</p></div>
+      <div class="card"><h3>Michael Lee</h3><p>Science Enthusiast with a focus on Chemistry, Physics, and problem-solving methodologies.</p></div>
     </div>
   </section>
 
   <section class="section" id="pricing">
     <h2>Pricing</h2>
     <div class="cards">
-      <div class="card">
-        <h3>One-on-One</h3>
-        <p>R150 per hour</p>
-      </div>
-      <div class="card">
-        <h3>Group Session</h3>
-        <p>R120 for 2 hours</p>
-      </div>
-      <div class="card">
-        <h3>Monthly Package</h3>
-        <p>R840 for 1.5 hours per week</p>
-      </div>
+      <div class="card"><h3>One-on-One</h3><p>R150 per hour</p></div>
+      <div class="card"><h3>Group Session</h3><p>R120 for 2 hours</p></div>
+      <div class="card"><h3>Monthly Package</h3><p>R840 for 1.5 hours per week</p></div>
     </div>
   </section>
 
@@ -235,21 +154,14 @@
 
   <section class="section" id="testimonials">
     <h2>Testimonials</h2>
-    <!-- Elfsight Google Reviews Widget -->
     <script src="https://static.elfsight.com/platform/platform.js" async></script>
     <div class="elfsight-app-4612a642-2c71-45fd-8514-d9122fdd54fb" data-elfsight-app-lazy></div>
   </section>
 
   <section class="section" id="faq">
     <h2>Frequently Asked Questions</h2>
-    <details class="faq-item">
-      <summary>How do I book a session?</summary>
-      <p>Simply use the contact form below or WhatsApp us directly to schedule a session.</p>
-    </details>
-    <details class="faq-item">
-      <summary>Are sessions online or in-person?</summary>
-      <p>We offer both online and in-person sessions depending on your location and preference.</p>
-    </details>
+    <details class="faq-item"><summary>How do I book a session?</summary><p>Simply use the contact form below or WhatsApp us directly to schedule a session.</p></details>
+    <details class="faq-item"><summary>Are sessions online or in-person?</summary><p>We offer both online and in-person sessions depending on your location and preference.</p></details>
   </section>
 
   <section class="section" id="contact">
@@ -277,7 +189,6 @@
   </footer>
 
   <script>
-    // Reveal animations
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('hero').classList.add('show');
       const sections = document.querySelectorAll('.section');
@@ -290,9 +201,16 @@
       };
       window.addEventListener('scroll', revealOnScroll);
       revealOnScroll();
+
+      // Close mobile menu when link is clicked
+      const navLinks = document.querySelectorAll('#navLinks a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          document.getElementById('navLinks').classList.remove('show');
+        });
+      });
     });
 
-    // Mobile menu toggle
     function toggleMenu() {
       document.getElementById('navLinks').classList.toggle('show');
     }
