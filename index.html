@@ -4,75 +4,134 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ORE GENIUS TUTORING</title>
+
+  <!-- Favicon (place favicon.png in the repo root) -->
   <link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
 
+  <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <style>
     html { scroll-behavior: smooth; }
     body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background: #fff; color: #000; overflow-x: hidden; }
+
     header { background: #000; color: #ffde59; padding: 2rem; text-align: center; }
-    nav { background: #222; padding: 1rem 0; text-align: center; position: sticky; top: 0; z-index: 1000; }
-    nav a { color: #ffde59; margin: 0 1.5rem; text-decoration: none; font-weight: bold; position: relative; }
-    nav a::after { content: ''; display: block; width: 0; height: 2px; background: #ffde59; transition: width 0.3s; position: absolute; bottom: -5px; left: 0; }
+
+    /* Base nav styles */
+    nav { background: #222; position: sticky; top: 0; z-index: 1000; }
+    nav a { color: #ffde59; text-decoration: none; font-weight: bold; position: relative; }
+    nav a::after {
+      content: ''; display: block; width: 0; height: 2px; background: #ffde59;
+      transition: width 0.3s; position: absolute; bottom: -5px; left: 0;
+    }
     nav a:hover::after { width: 100%; }
-    .hero { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 6rem 2rem; background: #ffde59; text-align: center; transition: clip-path 1s ease-in-out; clip-path: circle(0% at 50% 50%); }
+
+    /* --- NAV LAYOUT (reworked to prevent overlap) --- */
+    .nav-container {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1rem; min-height: 56px;
+    }
+    .logo { font-size: 1.5rem; color: #ffde59; font-weight: bold; }
+    .hamburger { display: none; font-size: 2rem; color: #ffde59; cursor: pointer; line-height: 1; }
+    .nav-links {
+      display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+      gap: .75rem; padding: .75rem 0;
+    }
+    /* Tighter margins than default so links don't push each other */
+    nav a { margin: 0 .75rem; }
+
+    /* Collapse menu on tablets & phones up to 1024px */
+    @media (max-width: 1024px) {
+      .hamburger { display: block; }
+      .nav-links {
+        display: none;            /* hidden until toggled */
+        flex-direction: column; align-items: center; background: #222; width: 100%;
+        gap: 0; padding: .5rem 0 1rem;
+      }
+      .nav-links.show { display: flex; }
+      nav a { margin: .6rem 0; }
+      .nav-container { padding: 0 .75rem; }
+    }
+
+    /* Small phones: nudge font size */
+    @media (max-width: 420px) {
+      nav a { font-size: 0.95rem; }
+    }
+
+    .hero {
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      padding: 6rem 2rem; background: #ffde59; text-align: center;
+      transition: clip-path 1s ease-in-out; clip-path: circle(0% at 50% 50%);
+    }
     .hero.show { clip-path: circle(150% at 50% 50%); }
-    .hero h2 { font-size: 2.8rem; margin-bottom: 1rem; }
-    .hero p { font-size: 1.3rem; margin-bottom: 2rem; max-width: 600px; }
-    .btn { background: #000; color: #ffde59; padding: 0.8rem 2rem; text-decoration: none; border-radius: 30px; font-weight: bold; transition: transform 0.4s ease, background 0.3s; display: inline-block; }
-    .btn:hover { background: #333; transform: scale(1.1) rotate(2deg); }
-    .section { padding: 4rem 2rem; max-width: 1100px; margin: auto; transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out; opacity: 0; transform: translateY(20px); }
+    .hero h2 { font-size: 2.2rem; margin-bottom: 1rem; }
+    .hero p { font-size: 1.1rem; margin-bottom: 2rem; max-width: 650px; }
+
+    .btn {
+      background: #000; color: #ffde59; padding: 0.8rem 2rem; text-decoration: none;
+      border-radius: 30px; font-weight: bold; transition: transform 0.4s ease, background 0.3s; display: inline-block;
+    }
+    .btn:hover { background: #333; transform: scale(1.06) rotate(1deg); }
+
+    .section {
+      padding: 4rem 2rem; max-width: 1100px; margin: auto;
+      transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out; opacity: 0; transform: translateY(20px);
+    }
     .section.show { opacity: 1; transform: translateY(0); }
+
     .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem; }
-    .card { background: #f9f9f9; border-left: 5px solid #ffde59; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 10px rgba(0,0,0,0.05); transition: transform 0.3s ease; }
+    .card {
+      background: #f9f9f9; border-left: 5px solid #ffde59; padding: 1.5rem; border-radius: 10px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.05); transition: transform 0.3s ease;
+    }
     .card:hover { transform: translateY(-5px); }
+
     .contact-info a { display: inline-flex; align-items: center; color: #000; text-decoration: none; margin-bottom: 0.5rem; }
     .contact-info a i { margin-right: 0.5rem; font-size: 1.2rem; }
+
     .form-container { background: #f9f9f9; padding: 2rem; border-radius: 10px; margin-top: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-    .form-container input, .form-container textarea { width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 5px; }
-    .form-container button { background: #000; color: #ffde59; padding: 0.8rem 2rem; border: none; border-radius: 30px; font-weight: bold; cursor: pointer; transition: transform 0.4s ease, background 0.3s; }
-    .form-container button:hover { background: #333; transform: scale(1.1) rotate(-2deg); }
+    .form-container input, .form-container textarea {
+      width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 5px;
+    }
+    .form-container button {
+      background: #000; color: #ffde59; padding: 0.8rem 2rem; border: none; border-radius: 30px;
+      font-weight: bold; cursor: pointer; transition: transform 0.4s ease, background 0.3s;
+    }
+    .form-container button:hover { background: #333; transform: scale(1.06) rotate(-1deg); }
+
     footer { text-align: center; padding: 1.5rem; background: #000; color: #ffde59; margin-top: 3rem; }
+
     .testimonial-box { background: #ffde59; padding: 2rem; border-radius: 10px; margin-top: 2rem; color: #000; font-style: italic; }
-    .faq-item summary { cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; background: #f9f9f9; border-left: 5px solid #ffde59; border-radius: 5px; }
+
+    .faq-item summary {
+      cursor: pointer; font-weight: bold; padding: 0.5rem 1rem; background: #f9f9f9;
+      border-left: 5px solid #ffde59; border-radius: 5px;
+    }
     .faq-item p { padding: 0.5rem 1rem; margin: 0; background: #fff; border-radius: 0 0 5px 5px; border-left: 5px solid #ffde59; border-top: none; }
-    @media (max-width: 768px) { nav a { margin: 0 0.8rem; } }
-    .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 0 1rem; }
-.logo { font-size: 1.5rem; color: #ffde59; font-weight: bold; }
-.hamburger { display: none; font-size: 2rem; color: #ffde59; cursor: pointer; }
-.nav-links { display: flex; flex-wrap: wrap; justify-content: center; }
-@media (max-width: 768px) {
-  .hamburger { display: block; }
-  .nav-links { display: none; flex-direction: column; align-items: center; background: #222; width: 100%; }
-  .nav-links.show { display: flex; }
-  nav a { margin: 1rem 0; display: block; }
-}
   </style>
 </head>
 <body>
   <header>
-    
     <h1>Ore Genius Tutoring</h1>
-    
   </header>
 
-<nav>
-  <div class="nav-container">
-    <div class="logo">OGT</div>
-    <div class="hamburger" onclick="toggleMenu()">&#9776;</div>
-    <div class="nav-links" id="navLinks">
-      <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#why">Why Choose Us</a>
-      <a href="#tutors">Tutors</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#bank-details">Bank Details</a>
-      <a href="#testimonials">Testimonials</a>
-      <a href="#faq">FAQ</a>
-      <a href="#contact">Contact</a>
+  <nav>
+    <div class="nav-container">
+      <div class="logo">OGT</div>
+      <div class="hamburger" onclick="toggleMenu()">&#9776;</div>
+      <div class="nav-links" id="navLinks">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#why">Why Choose Us</a>
+        <a href="#tutors">Tutors</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#bank-details">Bank Details</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
   <section class="hero" id="hero">
     <h2>"Polishing Minds Like Rare Gems"</h2>
@@ -174,13 +233,12 @@
     <p><strong>Bank Code:</strong> 678910</p>
   </section>
 
-<section class="section" id="testimonials">
-  <h2>Testimonials</h2>
-
-  <!-- Elfsight Google Reviews Widget -->
-  <script src="https://static.elfsight.com/platform/platform.js" async></script>
-  <div class="elfsight-app-4612a642-2c71-45fd-8514-d9122fdd54fb" data-elfsight-app-lazy></div>
-</section>
+  <section class="section" id="testimonials">
+    <h2>Testimonials</h2>
+    <!-- Elfsight Google Reviews Widget -->
+    <script src="https://static.elfsight.com/platform/platform.js" async></script>
+    <div class="elfsight-app-4612a642-2c71-45fd-8514-d9122fdd54fb" data-elfsight-app-lazy></div>
+  </section>
 
   <section class="section" id="faq">
     <h2>Frequently Asked Questions</h2>
@@ -219,6 +277,7 @@
   </footer>
 
   <script>
+    // Reveal animations
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('hero').classList.add('show');
       const sections = document.querySelectorAll('.section');
@@ -226,19 +285,17 @@
         const triggerPoint = window.innerHeight / 1.2;
         sections.forEach(section => {
           const sectionTop = section.getBoundingClientRect().top;
-          if (sectionTop < triggerPoint) {
-            section.classList.add('show');
-          }
+          if (sectionTop < triggerPoint) section.classList.add('show');
         });
       };
       window.addEventListener('scroll', revealOnScroll);
       revealOnScroll();
     });
+
+    // Mobile menu toggle
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('show');
+    }
   </script>
-  <script>
-  function toggleMenu() {
-    document.getElementById('navLinks').classList.toggle('show');
-  }
-</script>
 </body>
 </html>
